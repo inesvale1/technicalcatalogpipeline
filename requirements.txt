@@ -1,0 +1,16 @@
+pandas>=2.0
+
+# Oracle / database connectivity (needed when metadata_source = "oracle")
+sqlalchemy>=2.0
+oracledb>=2.0
+
+# Windows credential store (needed when db_password_keyring_service is set)
+keyring>=25.0
+
+# S3 metadata source (needed when metadata_source = "s3")
+fsspec>=2024.1
+s3fs>=2024.1
+
+# Athena/Glue metadata source (needed when metadata_source = "athena")
+awswrangler>=3.0
+boto3>=1.34

@@ -1,0 +1,30 @@
+{
+  "schema_root": "schema",
+  "schemas": ["receita2"],
+  "metadata_source": "csv",
+  "delete_cols": [
+    "COLUMN_ID",
+    "NUM_BUCKETS",
+    "DENSITY"
+  ],
+  "db_type": "Oracle",
+  "db_connection_uri": null,
+  "db_driver_class_name": "oracle+oracledb",
+  "db_username": null,
+  "db_host": null,
+  "db_port": 1521,
+  "db_service_name": null,
+  "db_sid": null,
+  "db_dsn": null,
+  "db_password_keyring_service": "dataquality-oracle",
+  "db_password_keyring_username": null,
+  "metadata_db_schemas": ["receita2"],
+  "metadata_query_template": null,
+  "metadata_query_file": null,
+  "metadata_s3_uri": null,
+  "s3_storage_options": {},
+  "athena_databases": null,
+  "athena_workgroup": "primary",
+  "athena_s3_output": null,
+  "aws_region": null
+}
