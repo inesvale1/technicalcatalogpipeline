@@ -1,6 +1,6 @@
 {
   "schema_root": "schema",
-  "schemas": ["receita2"],
+  "schemas": ["cadastro", "receita2", "sitram2"],
   "metadata_source": "csv",
   "delete_cols": [
     "COLUMN_ID",
@@ -18,7 +18,7 @@
   "db_dsn": null,
   "db_password_keyring_service": "dataquality-oracle",
   "db_password_keyring_username": null,
-  "metadata_db_schemas": ["receita2"],
+  "metadata_db_schemas": ["cadastro", "receita2", "sitram2"],
   "metadata_query_template": null,
   "metadata_query_file": null,
   "metadata_s3_uri": null,

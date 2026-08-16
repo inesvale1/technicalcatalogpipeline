@@ -193,6 +193,24 @@ class schemaLoader:
         return dfs
 
     def _finalize_dataframe(self, df: pd.DataFrame) -> pd.DataFrame:
+        before = len(df)
+        df = df.drop_duplicates()
+        dropped = before - len(df)
+        if dropped:
+            # Seen in practice: an Oracle metadata export re-run/re-appended into
+            # the same CSV instead of overwriting it, producing the same rows
+            # duplicated dozens/hundreds of times over. Downstream per-row
+            # processing (MetadataContextBuilder) is at best O(rows) and at worst
+            # O(rows^2) per table, so a few hundred real rows silently becoming a
+            # million near-identical ones turns a few-second run into a
+            # multi-hour hang instead of just wasted memory -- worth a loud print
+            # here rather than only fixing it silently, since it signals the
+            # source CSV itself should be re-exported cleanly.
+            print(
+                f"[schema_loader] Removidas {dropped} linha(s) duplicada(s) exata(s) "
+                f"({before} -> {len(df)}). Isso normalmente indica que o CSV de origem "
+                "foi exportado/concatenado mais de uma vez -- considere regerar o export."
+            )
         if self.columns_to_delete:
             df = df.drop(
                 columns=[c for c in self.columns_to_delete if c in df.columns],

@@ -19,8 +19,14 @@ class MetadataContextBuilder:
     def build_and_save(self, payload: dict[str, Any] | None = None) -> Path:
         payload = payload or self.build()
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        content = json.dumps(payload, ensure_ascii=False, indent=2)
         output_path = self.output_dir / f"metadata_context_{self.schema_name}.json"
-        output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        output_path.write_text(content, encoding="utf-8")
+        # Fixed name stays authoritative (technicalcatalogpipeline/dataquality/
+        # businessglossarypipeline all read it by this exact path); the
+        # timestamped copy alongside it is a history trail only, never read
+        # back by anything in the pipeline.
+        write_timestamped_copy(output_path, content)
         return output_path
 
     def build(self) -> dict[str, Any]:
@@ -270,3 +276,10 @@ class MetadataContextBuilder:
         if pd.isna(numeric):
             return default
         return float(numeric)
+
+
+def write_timestamped_copy(path: Path, content: str) -> Path:
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamped_path = path.with_name(f"{path.stem}_{timestamp}{path.suffix}")
+    timestamped_path.write_text(content, encoding="utf-8")
+    return timestamped_path
